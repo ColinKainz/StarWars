@@ -13,13 +13,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <GraphQL Update="GraphQl\GetCharacters.graphql">
-        <Generator>MSBuild:GenerateGraphQLCode</Generator>
-      </GraphQL>
+      <ProjectReference Include="..\StarWars.Model\StarWars.Model.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\StarWars.Model\StarWars.Model.csproj" />
+      <GraphQL Update="GraphQl\Query\GetCharacters.graphql">
+        <Generator>MSBuild:GenerateGraphQLCode</Generator>
+      </GraphQL>
     </ItemGroup>
 
 </Project>
