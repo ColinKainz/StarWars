@@ -1,0 +1,25 @@
+﻿@page "/AddCharacter"
+@inject StarWarsClient StarWarsClient
+@inject NavigationManager NavigationManager
+
+<h3>AddCharacter</h3>
+<button type="button" class="btn-primary btn-sm btn" @onclick="Clicker">Add Object</button>
+
+@code {
+
+    public async Task Clicker()
+    {
+        await StarWarsClient.AddCharacter.ExecuteAsync(
+            new CharacterInput()
+            {
+                Id = 0,
+                Name = "Herman",
+                Faction = "Jedi",
+                Species = "Human",
+                Homeworld = "Tatooine"
+            });
+        
+        // NavigationManager.NavigateTo("/");
+    }
+
+}

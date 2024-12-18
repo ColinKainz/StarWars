@@ -1,0 +1,7 @@
+﻿subscription MySubscription {
+    onCharacterAdded {
+        id,
+        name,
+        faction
+    }
+}

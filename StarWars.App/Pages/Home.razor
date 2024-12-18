@@ -1,0 +1,50 @@
+﻿@page "/"
+@inject StarWarsClient StarWarsClient
+@using StarWars.Model.Entities
+@implements IDisposable
+
+<PageTitle>Home</PageTitle>
+<h1>Hello, world!</h1>
+
+@if (Characters!.Any())
+{
+    @foreach (var character in Characters!)
+    {
+        <p>@character.Name</p>
+    }
+}
+
+@code
+{
+    List<IGetCharacters_Characters>? Characters { get; set; } = [];
+    private IDisposable? _characterAddedSubscription;
+
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await StarWarsClient.GetCharacters.ExecuteAsync();
+        Characters = result.Data?.Characters.ToList();
+
+        _characterAddedSubscription = StarWarsClient
+            .MySubscription
+            .Watch()
+            .Subscribe(message =>
+            {
+                var dto = new GetCharacters_Characters_Character(
+                    message.Data!.OnCharacterAdded.Name,
+                    message.Data.OnCharacterAdded.Faction,
+                    message.Data.OnCharacterAdded.Id);
+                Characters!.Add(dto);
+                StateHasChanged();
+            });
+
+        
+        await base.OnInitializedAsync();
+    }
+    
+    public void Dispose()
+    {
+        _characterAddedSubscription?.Dispose();
+    }
+
+}
